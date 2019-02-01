@@ -4,8 +4,9 @@ Client socket for reading data off the publishing zmq_server_socket.
 Created by James Park and Mohit Verma.
 """
 import os
-os.chdir("/home/labuser/Desktop/googledrive/code/Samarium_control/Widgets/zmq_sockets") 
+os.chdir("/home/labuser/Desktop/googledrive/code/Samarium_control/github zmq") 
 import zmq
+import ast
 import time
 
 
@@ -30,11 +31,17 @@ class zmq_client_socket:
         self.received_first_data = False
         self.load_settings(connection_settings)
         self.make_connection()
-    
+        self.current_data = self.grab_data()
+        
+                
     def grab_data(self):
         """Tries to see if any information from the publishing socket 
         can be retrieved. If no information can be retrieved, an 
         error message will be printed.
+        
+        NOTE: The data that is grabbed is in QUEUE order, so the 
+        information that will be read is from the very last information
+        loaded in the queue.
         
         @type self: zmq_client_socket
         @rtype: None
@@ -50,7 +57,36 @@ class zmq_client_socket:
                 print("Data Grab failed, no information was retrieved.")
                 return
             
-                
+    def read_on_demand(self):
+        """
+        Retrieves all the data from the publishing socket (which is
+        ordered into an abstract syntax tree and returns the very last
+        sent information by the publishing socket.
+        
+        In simple terms, returns the very last information sent by
+        the publishing socket.
+        
+        @type self: zmq_client_socket
+        @rtype: None
+        """
+        done = False
+        num_tries = 0
+        while not done:
+            try:
+                string = self.socket.recv(flags=zmq.NOBLOCK)
+                num_tries += 1
+            except zmq.ZMQError:
+                if num_tries > 0:
+                    done = True
+    
+        out = string.split(' ')
+        topic, time = out[:2]
+        messagedata = ast.literal_eval(' '.join(out[2:]))
+    
+        timestamp = float(time)
+        return (timestamp, messagedata)
+
+
     def load_settings(self, connection_settings):
         """ Initializes this client zmq socket to the specified 
         settings which will be used to connect to the relevant
