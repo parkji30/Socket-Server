@@ -1,5 +1,5 @@
 import os
-os.chdir("/home/labuser/Desktop/googledrive/code/Samarium_control/Widgets/zmq_sockets")  
+os.chdir("/home/labuser/Desktop/googledrive/code/Samarium_control/github zmq")  
 from zmq_server_socket import zmq_server_socket
 import zmq
 import time
