@@ -1,7 +1,4 @@
-#Program
-
-This program is primarily used as a socket hosting server which allows a user to transfer data over an open socket 
-between two devices. 
+This program is primarily used as a socket hosting server which allows a user to transfer data over an open socket server.
 
 Note: There is no encryption method/protective measure so be wary from sending any sensitive data. This program was primarily used to data recorded by simple lab devices over a network.
 
