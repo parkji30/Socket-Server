@@ -16,6 +16,3 @@ Note: There is no encryption method/protective measure so be wary from sending a
 2) decreased printing rate
 3) Discovered that liveplotting and printing values continuously was eating up ram. Caused the computer to crash after 10 hours.
 	(about 2 GBS of ram gets used up after passing this for 22 hours).
-
-# TO DO
-# Finish and optimze implementing Live Plotting
